@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌸 Blooming Garden 🌸</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #e8f5ff 100%);
+            min-height: 100vh;
+            color: #5a4b6b;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #ff6b9d;
+            text-shadow: 2px 2px 4px rgba(255, 107, 157, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #7b68a2;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .section h2 {
+            color: #ff6b9d;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Image Gallery Styles */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .flower-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .flower-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.3);
+        }
+
+        .flower-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #ffd1dc, #e6e6fa);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .flower-name {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #7b68a2;
+        }
+
+        /* Cross-Pollination Styles */
+        .pollination-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .flower-selector {
+            text-align: center;
+        }
+
+        .flower-selector select {
+            padding: 12px 20px;
+            border: 3px solid #ff6b9d;
+            border-radius: 25px;
+            background: white;
+            color: #5a4b6b;
+            font-size: 1rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .flower-selector select:focus {
+            outline: none;
+            box-shadow: 0 0 15px rgba(255, 107, 157, 0.4);
+            transform: scale(1.05);
+        }
+
+        .pollinate-btn {
+            background: linear-gradient(45deg, #ff6b9d, #ffa8cc);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+        }
+
+        .pollinate-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+        }
+
+        .pollinate-btn:active {
+            transform: scale(0.95);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(45deg, #e8f5ff, #ffeef8);
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #7b68a2;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Blooming Flower Styles */
+        .bloom-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .plant {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .stem {
+            width: 8px;
+            height: 100px;
+            background: linear-gradient(to top, #4a7c59, #6b8e5a);
+            margin: 0 auto;
+            border-radius: 4px;
+        }
+
+        .bud {
+            width: 30px;
+            height: 40px;
+            background: linear-gradient(45deg, #90ee90, #98fb98);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            margin: -5px auto 0;
+            transition: all 0.8s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .flower {
+            width: 80px;
+            height: 80px;
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            transition: all 0.8s ease;
+            z-index: 1;
+        }
+
+        .petal {
+            width: 25px;
+            height: 35px;
+            background: linear-gradient(45deg, #ff69b4, #ffc0cb);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: absolute;
+            transform-origin: bottom center;
+        }
+
+        .petal:nth-child(1) { transform: rotate(0deg) translateY(-20px); }
+        .petal:nth-child(2) { transform: rotate(72deg) translateY(-20px); }
+        .petal:nth-child(3) { transform: rotate(144deg) translateY(-20px); }
+        .petal:nth-child(4) { transform: rotate(216deg) translateY(-20px); }
+        .petal:nth-child(5) { transform: rotate(288deg) translateY(-20px); }
+
+        .center {
+            width: 15px;
+            height: 15px;
+            background: #ffd700;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .bloomed .bud {
+            transform: scale(0);
+            opacity: 0;
+        }
+
+        .bloomed .flower {
+            transform: translateX(-50%) scale(1);
+        }
+
+        /* Quote Styles */
+        .quote-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .quote {
+            font-size: 1.3rem;
+            color: #7b68a2;
+            font-style: italic;
+            margin-bottom: 15px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #ffeef8, #e8f5ff);
+            border-radius: 15px;
+            padding: 20px;
+            transition: opacity 0.3s ease;
+        }
+
+        .quote-btn {
+            background: linear-gradient(45deg, #7b68a2, #9b7fb7);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(123, 104, 162, 0.3);
+        }
+
+        .quote-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(123, 104, 162, 0.4);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .bounce {
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes sparkle {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-50px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .sparkle {
+            animation: sparkle 1s ease-out forwards;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .pollination-container {
+                flex-direction: column;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌸 Blooming Garden 🌸</h1>
+            <p class="subtitle">Welcome to the most delightful flower paradise!</p>
+        </header>
+
+        <!-- Image Gallery Section -->
+        <section class="section">
+            <h2>🌺 Flower Gallery 🌺</h2>
+            <div class="gallery">
+                <div class="flower-card">
+                    <img src="/placeholder.svg?height=150&width=200" alt="Rose">
+                    <div class="flower-name">Rose</div>
+                </div>
+                <div class="flower-card">
+                    <img src="/placeholder.svg?height=150&width=200" alt="Sunflower">
+                    <div class="flower-name">Sunflower</div>
+                </div>
+                <div class="flower-card">
+                    <img src="/placeholder.svg?height=150&width=200" alt="Lavender">
+                    <div class="flower-name">Lavender</div>
+                </div>
+                <div class="flower-card">
+                    <img src="/placeholder.svg?height=150&width=200" alt="Daisy">
+                    <div class="flower-name">Daisy</div>
+                </div>
+                <div class="flower-card">
+                    <img src="/placeholder.svg?height=150&width=200" alt="Marigold">
+                    <div class="flower-name">Marigold</div>
+                </div>
+                <div class="flower-card">
+                    <img src="/placeholder.svg?height=150&width=200" alt="Hydrangea">
+                    <div class="flower-name">Hydrangea</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cross-Pollination Section -->
+        <section class="section">
+            <h2>🌼 Cross-Pollination Magic 🌼</h2>
+            <div class="pollination-container">
+                <div class="flower-selector">
+                    <label>First Flower:</label>
+                    <select id="flower1">
+                        <option value="">Choose a flower...</option>
+                        <option value="Rose">Rose</option>
+                        <option value="Sunflower">Sunflower</option>
+                        <option value="Lavender">Lavender</option>
+                        <option value="Daisy">Daisy</option>
+                        <option value="Marigold">Marigold</option>
+                        <option value="Hydrangea">Hydrangea</option>
+                    </select>
+                </div>
+                
+                <div style="font-size: 2rem;">💕</div>
+                
+                <div class="flower-selector">
+                    <label>Second Flower:</label>
+                    <select id="flower2">
+                        <option value="">Choose a flower...</option>
+                        <option value="Rose">Rose</option>
+                        <option value="Sunflower">Sunflower</option>
+                        <option value="Lavender">Lavender</option>
+                        <option value="Daisy">Daisy</option>
+                        <option value="Marigold">Marigold</option>
+                        <option value="Hydrangea">Hydrangea</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 20px 0;">
+                <button class="pollinate-btn" onclick="crossPollinate()">✨ Cross Pollinate! ✨</button>
+            </div>
+            
+            <div class="result" id="pollinationResult">
+                Select two flowers and watch the magic happen! 🌟
+            </div>
+        </section>
+
+        <!-- Blooming Flower Section -->
+        <section class="section">
+            <h2>🌱 Watch Me Bloom! 🌱</h2>
+            <div class="bloom-container">
+                <p style="margin-bottom: 20px;">Click on the flower bud to watch it bloom! 🌸</p>
+                <div class="plant" id="plant" onclick="bloomFlower()">
+                    <div class="stem"></div>
+                    <div class="bud" id="bud"></div>
+                    <div class="flower" id="flower">
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="center"></div>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; font-style: italic;">
+                    <button class="quote-btn" onclick="resetBloom()" style="background: linear-gradient(45deg, #4a7c59, #6b8e5a);">
+                        🌱 Reset Bloom
+                    </button>
+                </p>
+            </div>
+        </section>
+
+        <!-- Quotes Section -->
+        <section class="section">
+            <h2>🌻 Flower Wisdom & Giggles 🌻</h2>
+            <div class="quote-container">
+                <div class="quote" id="quote">
+                    Click the button below for some flower-powered fun! 🌈
+                </div>
+                <button class="quote-btn" onclick="showRandomQuote()">🌸 Get New Quote 🌸</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Cross-Pollination Feature
+        function crossPollinate() {
+            const flower1 = document.getElementById('flower1').value;
+            const flower2 = document.getElementById('flower2').value;
+            const resultDiv = document.getElementById('pollinationResult');
+            
+            if (!flower1 || !flower2) {
+                resultDiv.innerHTML = "Please select both flowers first! 🌺";
+                resultDiv.classList.add('bounce');
+                setTimeout(() => resultDiv.classList.remove('bounce'), 600);
+                return;
+            }
+            
+            const colors = ['Pink', 'Purple', 'Golden', 'Rainbow', 'Sparkly', 'Magical', 'Dreamy', 'Cosmic'];
+            const adjectives = ['Magnificent', 'Enchanted', 'Whimsical', 'Dazzling', 'Mystical', 'Radiant', 'Celestial'];
+            const suffixes = ['bloom', 'blossom', 'petal', 'flower', 'beauty', 'wonder', 'delight'];
+            
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+            const randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+            
+            const hybridName = `${randomColor} ${randomAdjective} ${flower1}${randomSuffix}`;
+            
+            resultDiv.innerHTML = `🎉 Congratulations! You've created the <strong>${hybridName}</strong>! 🎉<br>
+                                  <small>A magical hybrid of ${flower1} and ${flower2}!</small>`;
+            resultDiv.classList.add('bounce');
+            setTimeout(() => resultDiv.classList.remove('bounce'), 600);
+        }
+
+        // Blooming Flower Feature
+        let isBlooomed = false;
+        
+        function bloomFlower() {
+            const plant = document.getElementById('plant');
+            if (!isBlooomed) {
+                plant.classList.add('bloomed');
+                isBlooomed = true;
+            }
+        }
+        
+        function resetBloom() {
+            const plant = document.getElementById('plant');
+            plant.classList.remove('bloomed');
+            isBlooomed = false;
+        }
+
+        // Random Quotes Feature
+        const quotes = [
+            "I'm just pollen your leg! 🌼",
+            "You grow, girl! 🌸",
+            "Bee yourself, everyone else is taken! 🐝",
+            "Don't worry, bee happy! 🌻",
+            "I'm rooting for you! 🌱",
+            "You're absolutely blooming marvelous! 🌺",
+            "Life is better with a little flower power! 🌈",
+            "Stop and smell the roses... seriously, they smell amazing! 🌹",
+            "I'm having a pollen-tastic day! 🌼",
+            "You make my heart bloom! 💖",
+            "Thistle be the best day ever! 🌿",
+            "I'm not a regular flower, I'm a cool flower! 😎",
+            "Petal to the metal! 🌸",
+            "You're one in a melon... wait, that's not a flower! 🍉",
+            "I'm blooming with excitement! 🌺",
+            "Flower power is the best superpower! ⚡",
+            "You're the pick of the bunch! 🌻",
+            "I'm having a rose-y outlook on life! 🌹",
+            "Don't be a wallflower, shine bright! ✨",
+            "You're absolutely daffodil-ightful! 🌼"
+        ];
+        
+        function showRandomQuote() {
+            const quoteDiv = document.getElementById('quote');
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            
+            quoteDiv.style.opacity = '0';
+            setTimeout(() => {
+                quoteDiv.innerHTML = randomQuote;
+                quoteDiv.style.opacity = '1';
+                quoteDiv.classList.add('bounce');
+                setTimeout(() => quoteDiv.classList.remove('bounce'), 600);
+            }, 200);
+        }
+
+        // Sparkle effect for buttons
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'BUTTON') {
+                createSparkles(e.target);
+            }
+        });
+
+        function createSparkles(element) {
+            const sparkleEmojis = ['✨', '🌟', '💫', '⭐'];
+            
+            for (let i = 0; i < 8; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.innerHTML = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+                sparkle.style.position = 'fixed';
+                sparkle.style.pointerEvents = 'none';
+                sparkle.style.fontSize = '1.2rem';
+                sparkle.style.zIndex = '1000';
+                sparkle.classList.add('sparkle');
+                
+                const rect = element.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                const angle = (i / 8) * 2 * Math.PI;
+                const radius = 30;
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+                
+                sparkle.style.left = x + 'px';
+                sparkle.style.top = y + 'px';
+                
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => {
+                    if (document.body.contains(sparkle)) {
+                        document.body.removeChild(sparkle);
+                    }
+                }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>
